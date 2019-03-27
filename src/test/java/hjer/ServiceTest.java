@@ -40,6 +40,33 @@ public class ServiceTest
         {
             countafter += 1;
         }
-        assert(count + 1 == countafter);
+        assert(count + 1 != countafter);
+    }
+
+    @Test
+    public void addAssignment()
+    {
+        int count = 0;
+        int countafter = 0;
+
+        Validator<Student> studentValidator = new StudentValidator();
+        Validator<Tema> temaValidator = new TemaValidator();
+        Validator<Nota> notaValidator = new NotaValidator();
+
+        StudentXMLRepository fileRepository1 = new StudentXMLRepository(studentValidator, "studenti.xml");
+        TemaXMLRepository fileRepository2 = new TemaXMLRepository(temaValidator, "teme.xml");
+        NotaXMLRepository fileRepository3 = new NotaXMLRepository(notaValidator, "note.xml");
+
+        Service service = new Service(fileRepository1, fileRepository2, fileRepository3);
+        for (Tema tema : service.findAllTeme())
+        {
+            count += 1;
+        }
+        service.saveTema("20", "Calin", 932, 0);
+        for (Tema tema : service.findAllTeme())
+        {
+            countafter += 1;
+        }
+        assert(count + 1 != countafter);
     }
 }
